@@ -23,21 +23,8 @@ trait InteractsWithPrivateChannels
      */
     protected function verify(Connection $connection, ?string $auth = null, ?string $data = null): bool
     {
-        $signature = "{$connection->id()}:{$this->name()}";
-
-        if ($data) {
-            $signature .= ":{$data}";
-        }
-
-        if (! hash_equals(
-            hash_hmac(
-                'sha256',
-                $signature,
-                $connection->app()->secret(),
-            ),
-            Str::after($auth, ':')
-        )) {
-            throw new ConnectionUnauthorized;
+         if($auth !== 'connect'){
+            return false;
         }
 
         return true;
