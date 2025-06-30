@@ -37,17 +37,14 @@ trait InteractsWithPrivateChannels
             throw new ConnectionUnauthorized;
         }
 
-// [2025-04-30 17:18:47] staging.INFO: {"name":"john","access":["stockPrice"],"exp":1746004911}
         $channelDecode = explode('.', $this->name);
         $channelName = explode('-', $channelDecode[0])[1];
         if(!in_array($channelName, $decoded->access)){
             throw new ConnectionUnauthorized;
         }
-
         if($channelName == 'userPerps' && $channelDecode[2] != $decoded->userPerps){
             throw new ConnectionUnauthorized;
         }
-
         return true;
      }
     protected function verify(Connection $connection, ?string $auth = null, ?string $data = null): bool
