@@ -42,7 +42,8 @@ trait InteractsWithPrivateChannels
         if(!in_array($channelName, $decoded->access)){
             throw new ConnectionUnauthorized;
         }
-        if($channelName == 'userPerps' && $channelDecode[2] != $decoded->userPerps){
+        // Dynamic channel validation - check if channel name property exists in JWT
+        if (property_exists($decoded, $channelName) && $channelDecode[2] != $decoded->{$channelName}) {
             throw new ConnectionUnauthorized;
         }
         return true;
